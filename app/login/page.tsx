@@ -1,3 +1,6 @@
+'use client';
+
+import { GoogleIcon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -6,30 +9,29 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { signIn } from '@/lib/auth';
+import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex justify-center items-start md:items-center p-8">
+    <div className="min-h-screen flex bg-muted justify-center items-start md:items-center p-8">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
           <CardDescription>
-            This demo uses GitHub for authentication.
+            Usá tu cuenta de Google para iniciar sesión.
           </CardDescription>
         </CardHeader>
+
         <CardFooter>
-          <form
-            action={async () => {
-              'use server';
-              await signIn('github', {
-                redirectTo: '/'
-              });
-            }}
+
+          <Button
             className="w-full"
+            onClick={() => signIn('google', { callbackUrl: '/' })}
           >
-            <Button className="w-full">Sign in with GitHub</Button>
-          </form>
+            <GoogleIcon className="mt-2 mr-2"/>
+            Iniciar sesión con Google
+            
+          </Button>
         </CardFooter>
       </Card>
     </div>
