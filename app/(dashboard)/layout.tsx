@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import {
+  Dumbbell,
   Home,
   LineChart,
   Package,
@@ -7,6 +8,8 @@ import {
   PanelLeft,
   Settings,
   ShoppingCart,
+  UserCircle2,
+  UserIcon,
   Users2
 } from 'lucide-react';
 
@@ -32,18 +35,43 @@ import Providers from './providers';
 import { NavItem } from './nav-item';
 import { SearchInput } from './search';
 
-export default function DashboardLayout({
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
+
+export default async function DashboardLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect('/api/auth/signin');
+  }
+
+  // Buscar el usuario en Supabase
+  const { data: usuario, error } = await supabase
+    .from('usuarios')
+    .select('rol')
+    .eq('email', session.user.email)
+    .maybeSingle();
+
+  if (error || !usuario) {
+    console.error('Error al cargar el rol del usuario:', error);
+    redirect('/unauthorized');
+  }
+
+  const rol = usuario.rol;
+
   return (
     <Providers>
       <main className="flex min-h-screen w-full flex-col bg-muted/40">
-        <DesktopNav />
+        <DesktopNav rol={rol} />
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-            <MobileNav />
+            <MobileNav rol={rol} />
             <DashboardBreadcrumb />
             <SearchInput />
             <User />
@@ -58,7 +86,8 @@ export default function DashboardLayout({
   );
 }
 
-function DesktopNav() {
+function DesktopNav({ rol }: { rol: string }) {
+
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -74,21 +103,32 @@ function DesktopNav() {
           <Home className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="#" label="Orders">
-          <ShoppingCart className="h-5 w-5" />
-        </NavItem>
+        {/* Solo para admins */}
+        {rol === 'administrador' && (
+          <>
+            <NavItem href="/miembros" label="Miembros">
+              <Users2 className="h-5 w-5" />
+            </NavItem>
+            <NavItem href="/entrenadores" label="Entrenadores">
+              <UserIcon className="h-5 w-5" />
+            </NavItem>
+            <NavItem href="/customers" label="Rutinas">
+              <Dumbbell className="h-5 w-5" />
+            </NavItem>
+          </>
+        )}
 
-        <NavItem href="/" label="Products">
-          <Package className="h-5 w-5" />
-        </NavItem>
+        {rol === 'miembro' && (
+          <>
+            <NavItem href="/perfil" label="Mi Perfil">
+              <UserIcon className="h-5 w-5" />
+            </NavItem>
+            <NavItem href="/" label="Clientes">
+              <Dumbbell className="h-5 w-5" />
+            </NavItem>
+          </>
+        )}
 
-        <NavItem href="/customers" label="Customers">
-          <Users2 className="h-5 w-5" />
-        </NavItem>
-
-        <NavItem href="#" label="Analytics">
-          <LineChart className="h-5 w-5" />
-        </NavItem>
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <Tooltip>
@@ -108,7 +148,7 @@ function DesktopNav() {
   );
 }
 
-function MobileNav() {
+function MobileNav({ rol }: { rol: string }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -133,34 +173,34 @@ function MobileNav() {
             <Home className="h-5 w-5" />
             Dashboard
           </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            Orders
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-foreground"
-          >
-            <Package className="h-5 w-5" />
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
-            <Users2 className="h-5 w-5" />
-            Customers
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
-            <LineChart className="h-5 w-5" />
-            Settings
-          </Link>
+
+          {rol === 'administrador' && (
+            <>
+              <Link
+                href="/miembros"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <Users2 className="h-5 w-5" />
+                Miembros
+              </Link>
+              <Link
+                href="#"
+                className="flex items-center gap-4 px-2.5 text-foreground"
+              >
+                <UserIcon className="h-5 w-5" />
+                Entrenadores
+              </Link>
+              <Link
+                href="#"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <Dumbbell className="h-5 w-5" />
+                Rutinas
+              </Link>
+            </>
+          )}
+
+
         </nav>
       </SheetContent>
     </Sheet>

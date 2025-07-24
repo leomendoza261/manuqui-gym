@@ -1,3 +1,4 @@
+import PerfilUsuario from '@/components/PerfilUsuario';
 import {
   Card,
   CardContent,
@@ -6,14 +7,16 @@ import {
   CardTitle
 } from '@/components/ui/card';
 
-export default function CustomersPage() {
+export default function PerfilPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Customers</CardTitle>
+        <CardTitle>Mi Perfil</CardTitle>
         <CardDescription>View all customers and their orders.</CardDescription>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>
+        <PerfilUsuario />
+      </CardContent>
     </Card>
   );
 }

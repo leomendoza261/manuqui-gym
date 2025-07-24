@@ -3,8 +3,8 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const {
-  handlers,
-  auth,
+  handlers, // para API routes si las necesitas
+  auth,     // este es el helper que se usa en server para obtener la sesión
   signIn,
   signOut,
 } = NextAuth({
