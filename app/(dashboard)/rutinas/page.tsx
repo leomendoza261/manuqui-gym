@@ -1,4 +1,4 @@
-import TablaMembresias from '@/components/TablaMembresias';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,7 +10,7 @@ import {
 import { PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function MiembrosPage() {
+export default function RutinasPage() {
   return (
     <div>
 
@@ -19,7 +19,7 @@ export default function MiembrosPage() {
           <Button size="sm" className="h-8 gap-1">
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Añadir miembro
+              Añadir rutina
             </span>
           </Button>
         </Link>
@@ -27,11 +27,11 @@ export default function MiembrosPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Miembros</CardTitle>
-          <CardDescription>Vista de miembros y sus membresias</CardDescription>
+          <CardTitle>Rutinas</CardTitle>
+          <CardDescription>Vista de rutinas y sus ejercicios</CardDescription>
         </CardHeader>
         <CardContent>
-          <TablaMembresias />
+          aca va una tabla?
         </CardContent>
       </Card>
 
