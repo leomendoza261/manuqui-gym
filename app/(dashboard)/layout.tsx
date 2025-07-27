@@ -185,6 +185,20 @@ function MobileNav({ rol }: { rol: string }) {
                 <Dumbbell className="h-5 w-5" />
                 Rutinas
               </Link>
+              <Link
+                href="/perfil"
+                className="flex items-center gap-4 px-2.5 text-foreground"
+              >
+                <UserIcon className="h-5 w-5" />
+                Mi perfil
+              </Link>
+              <Link
+                href="/misrutinas"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <Dumbbell className="h-5 w-5" />
+                Rutinas
+              </Link>
             </>
           )}
 
