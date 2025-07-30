@@ -57,12 +57,12 @@ export function ComboboxUsuarios({ users, value, onChange, placeholder = "Selecc
               {users.map((user) => (
                 <CommandItem
                   key={user.id}
-                  value={user.id}
+                  value={`${user.nombre} ${user.apellido}`}
                   onSelect={() => {
                     onChange(user.id)
                     setOpen(false)
                   }}
-                >
+                > 
                   {user.nombre} {user.apellido}
                   <Check
                     className={cn(

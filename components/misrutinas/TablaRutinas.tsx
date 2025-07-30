@@ -17,7 +17,7 @@ export default function TablaRutinas() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch('/api/rutinas')
+    fetch('/api/rutinas/rutinasmiembro')
       .then(res => res.json())
       .then(data => setRutinas(data))
       .catch(err => console.error(err));

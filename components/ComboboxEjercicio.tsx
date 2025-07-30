@@ -39,9 +39,18 @@ export function ComboboxEjercicio({ ejercicios, value, onChange }: Props) {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" className="w-full justify-between">
-          {selected ? `${selected.nombre} (${selected.grupo_muscular})` : 'Seleccionar ejercicio'}
-          <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+        <Button
+          variant="outline"
+          role="combobox"
+          className="w-full flex items-center justify-between gap-2 overflow-hidden"
+        >
+          <span
+            className="block flex-1 truncate text-left"
+            title={selected ? `${selected.nombre} (${selected.grupo_muscular})` : ''}
+          >
+            {selected ? `${selected.nombre} (${selected.grupo_muscular})` : 'Seleccionar ejercicio'}
+          </span>
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
@@ -60,10 +69,10 @@ export function ComboboxEjercicio({ ejercicios, value, onChange }: Props) {
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    <Image src={ej.imagen_url} alt="" width={24} height={24} />
+                    <Image src={ej.imagen_url} alt="" width={48} height={48} />
                     <span>{ej.nombre}{/*  - <span className='text-xs'>{ej.grupo_muscular}</span> */}</span>
                   </div>
-                  <Check className={cn('ml-auto h-4 w-4', ej.id === value ? 'opacity-100' : 'opacity-0')} />
+                  <Check className={cn('ml-auto h-4 w-4 ', ej.id === value ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>
               ))}
             </CommandGroup>

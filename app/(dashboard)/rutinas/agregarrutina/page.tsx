@@ -15,7 +15,7 @@ export default function AgregarRutinaPage() {
       <Card>
         <CardHeader>
           <CardTitle>Añadir Rutina</CardTitle>
-          <CardDescription>Registrar una nuevo rutina.</CardDescription>
+          <CardDescription>Registrar una nueva rutina.</CardDescription>
         </CardHeader>
         <CardContent>
             <FormularioRutina />

@@ -38,6 +38,7 @@ import { SearchInput } from './search';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { env } from 'process';
 
 export default async function DashboardLayout({
   children
@@ -112,12 +113,26 @@ function DesktopNav({ rol }: { rol: string }) {
           </>
         )}
 
+        {rol === 'entrenador' && (
+          <>
+            <NavItem href="/perfil" label="Mi Perfil">
+              <UserIcon className="h-5 w-5" />
+            </NavItem>
+            <NavItem href="/rutinas" label="Rutinas">
+              <Dumbbell className="h-5 w-5" />
+            </NavItem>
+            <NavItem href="/misrutinas" label="Mis Rutinas">
+              <Dumbbell className="h-5 w-5" />
+            </NavItem>
+          </>
+        )}
+
         {rol === 'miembro' && (
           <>
             <NavItem href="/perfil" label="Mi Perfil">
               <UserIcon className="h-5 w-5" />
             </NavItem>
-            <NavItem href="/misrutinas" label="Clientes">
+            <NavItem href="/misrutinas" label="Mis Rutinas">
               <Dumbbell className="h-5 w-5" />
             </NavItem>
           </>
@@ -156,11 +171,11 @@ function MobileNav({ rol }: { rol: string }) {
           <User />
           <SheetClose asChild>
             <Link
-              href="#"
+              href=""
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Home className="h-5 w-5" />
-              Dashboard
+              Inicio
             </Link>
           </SheetClose>
 
@@ -209,9 +224,42 @@ function MobileNav({ rol }: { rol: string }) {
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Dumbbell className="h-5 w-5" />
+                  Mis Rutinas
+                </Link>
+              </SheetClose>
+            </>
+          )}
+
+          {rol === 'entrenador' && (
+            <>
+              <SheetClose asChild>
+                <Link
+                  href="/perfil"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <UserIcon className="h-5 w-5" />
+                  Mi perfil
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/rutinas"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Dumbbell className="h-5 w-5" />
                   Rutinas
                 </Link>
               </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/misrutinas"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Dumbbell className="h-5 w-5" />
+                  Mis Rutinas
+                </Link>
+              </SheetClose>
+
             </>
           )}
 
@@ -232,7 +280,7 @@ function MobileNav({ rol }: { rol: string }) {
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Dumbbell className="h-5 w-5" />
-                  Rutinas
+                  Mis Rutinas
                 </Link>
               </SheetClose>
 
