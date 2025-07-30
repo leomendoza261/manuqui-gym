@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import {
+  ClipboardPen,
   Dumbbell,
   Home,
   LineChart,
@@ -94,7 +95,7 @@ function DesktopNav({ rol }: { rol: string }) {
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
         <User />
 
-        <NavItem href="/" label="Dashboard">
+        <NavItem href="/" label="Inicio">
           <Home className="h-5 w-5" />
         </NavItem>
 
@@ -108,7 +109,7 @@ function DesktopNav({ rol }: { rol: string }) {
               <UserIcon className="h-5 w-5" />
             </NavItem>
             <NavItem href="/rutinas" label="Rutinas">
-              <Dumbbell className="h-5 w-5" />
+              <ClipboardPen className="h-5 w-5" />
             </NavItem>
           </>
         )}
@@ -119,7 +120,7 @@ function DesktopNav({ rol }: { rol: string }) {
               <UserIcon className="h-5 w-5" />
             </NavItem>
             <NavItem href="/rutinas" label="Rutinas">
-              <Dumbbell className="h-5 w-5" />
+              <ClipboardPen className="h-5 w-5" />
             </NavItem>
             <NavItem href="/misrutinas" label="Mis Rutinas">
               <Dumbbell className="h-5 w-5" />
@@ -171,7 +172,7 @@ function MobileNav({ rol }: { rol: string }) {
           <User />
           <SheetClose asChild>
             <Link
-              href=""
+              href="/"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Home className="h-5 w-5" />
@@ -205,7 +206,7 @@ function MobileNav({ rol }: { rol: string }) {
                   href="/rutinas"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                  <Dumbbell className="h-5 w-5" />
+                  <ClipboardPen className="h-5 w-5" />
                   Rutinas
                 </Link>
               </SheetClose>
@@ -246,7 +247,7 @@ function MobileNav({ rol }: { rol: string }) {
                   href="/rutinas"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
-                  <Dumbbell className="h-5 w-5" />
+                  <ClipboardPen className="h-5 w-5" />
                   Rutinas
                 </Link>
               </SheetClose>
