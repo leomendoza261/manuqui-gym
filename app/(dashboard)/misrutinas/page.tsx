@@ -1,37 +1,27 @@
-import { Button } from '@/components/ui/button';
+'use client'
+
+import TablaRutinas from '@/components/misrutinas/TablaRutinas'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from '@/components/ui/card';
-import { PlusCircle } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+} from '@/components/ui/card'
 
-export default function MiembrosPage() {
+export default function MisRutinasPage() {
+
   return (
     <div>
-
       <Card>
         <CardHeader>
-          <CardTitle>Mis rutinas</CardTitle>
-          <CardDescription></CardDescription>
+          <CardTitle>Mis Rutinas</CardTitle>
+          <CardDescription>Listado de rutinas.</CardDescription>
         </CardHeader>
         <CardContent>
-          Proximamente
-
-          <Image
-            src="https://manuqui-gym.pedrolmendoza031297.workers.dev/Flexion.webp"
-            alt="Press de banca"
-            width={500}
-            height={300}
-          />
-
+          <TablaRutinas />
         </CardContent>
       </Card>
-
     </div>
-  );
+  )
 }

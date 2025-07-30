@@ -22,7 +22,7 @@ import {
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Tooltip,
   TooltipContent,
@@ -93,7 +93,7 @@ function DesktopNav({ rol }: { rol: string }) {
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
         <User />
 
-        <NavItem href="#" label="Dashboard">
+        <NavItem href="/" label="Dashboard">
           <Home className="h-5 w-5" />
         </NavItem>
 
@@ -153,71 +153,89 @@ function MobileNav({ rol }: { rol: string }) {
       </SheetTrigger>
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-6 text-lg font-medium">
-          <User/>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
-            <Home className="h-5 w-5" />
-            Dashboard
-          </Link>
+          <User />
+          <SheetClose asChild>
+            <Link
+              href="#"
+              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+            >
+              <Home className="h-5 w-5" />
+              Dashboard
+            </Link>
+          </SheetClose>
+
 
           {rol === 'administrador' && (
             <>
-              <Link
-                href="/miembros"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Users2 className="h-5 w-5" />
-                Miembros
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-4 px-2.5 text-foreground"
-              >
-                <UserIcon className="h-5 w-5" />
-                Entrenadores
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Dumbbell className="h-5 w-5" />
-                Rutinas
-              </Link>
-              <Link
-                href="/perfil"
-                className="flex items-center gap-4 px-2.5 text-foreground"
-              >
-                <UserIcon className="h-5 w-5" />
-                Mi perfil
-              </Link>
-              <Link
-                href="/misrutinas"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Dumbbell className="h-5 w-5" />
-                Rutinas
-              </Link>
+              <SheetClose asChild>
+                <Link
+                  href="/miembros"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Users2 className="h-5 w-5" />
+                  Miembros
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="#"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <UserIcon className="h-5 w-5" />
+                  Entrenadores
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/rutinas"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Dumbbell className="h-5 w-5" />
+                  Rutinas
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/perfil"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <UserIcon className="h-5 w-5" />
+                  Mi perfil
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/misrutinas"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Dumbbell className="h-5 w-5" />
+                  Rutinas
+                </Link>
+              </SheetClose>
             </>
           )}
 
           {rol === 'miembro' && (
             <>
-              <Link
-                href="/perfil"
-                className="flex items-center gap-4 px-2.5 text-foreground"
-              >
-                <UserIcon className="h-5 w-5" />
-                Mi perfil
-              </Link>
-              <Link
-                href="/misrutinas"
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-              >
-                <Dumbbell className="h-5 w-5" />
-                Rutinas
-              </Link>
+              <SheetClose asChild>
+                <Link
+                  href="/perfil"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <UserIcon className="h-5 w-5" />
+                  Mi perfil
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  href="/misrutinas"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Dumbbell className="h-5 w-5" />
+                  Rutinas
+                </Link>
+              </SheetClose>
+
             </>
           )}
 
