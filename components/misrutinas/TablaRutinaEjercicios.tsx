@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/drawer"
 import Image from 'next/image'
 import { Skeleton } from '../ui/skeleton'
+import { TextoFormateado } from '@/lib/FormatearInstrucciones'
 
 interface Ejercicio {
   id: number;
@@ -151,12 +152,12 @@ export default function TablaRutinaEjercicios({ rutina_id }: Props) {
                       height={300}
                       className="rounded"
                     />
-                    <p className='text-lg font-semibold my-1'>Descripción</p>
+                    <p className='text-lg font-semibold my-1'>Preparación</p>
                     <p>{selectedExercise.ejercicios.descripcion}</p>
                     <p className='text-lg font-semibold my-1'>Ejecucion</p>
-                    <p>{selectedExercise.ejercicios.ejecucion}</p>
+                    <TextoFormateado texto={selectedExercise.ejercicios.ejecucion}/>
                     <p className='text-lg font-semibold my-1'>Consejos Clave</p>
-                    <p>{selectedExercise.ejercicios.consejos}</p>
+                    <TextoFormateado texto={selectedExercise.ejercicios.consejos} />
                     <p className='text-lg font-semibold my-1'>Detalle</p>
                     <p>Series: {selectedExercise.series}</p>
                     <p>Repeticiones: {selectedExercise.repeticiones}</p>
