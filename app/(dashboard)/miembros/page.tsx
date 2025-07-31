@@ -9,8 +9,17 @@ import {
 } from '@/components/ui/card';
 import { PlusCircle } from 'lucide-react';
 import Link from 'next/link';
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
-export default function MiembrosPage() {
+export default async function MiembrosPage() {
+
+  const session = await auth();
+
+  if (!session || session.user?.email !== "pedrolmendoza031297@gmail.com.ar") {
+    redirect('/');
+  }
+
   return (
     <div>
 
