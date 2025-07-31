@@ -1,27 +1,15 @@
 import Link from 'next/link';
 import {
+  Blocks,
   ClipboardPen,
   Dumbbell,
   Home,
-  LineChart,
-  Package,
-  Package2,
   PanelLeft,
   Settings,
-  ShoppingCart,
-  UserCircle2,
   UserIcon,
   Users2
 } from 'lucide-react';
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
@@ -31,15 +19,12 @@ import {
 } from '@/components/ui/tooltip';
 import { Analytics } from '@vercel/analytics/react';
 import { User } from './user';
-import { VercelLogo } from '@/components/icons';
 import Providers from './providers';
 import { NavItem } from './nav-item';
-import { SearchInput } from './search';
 
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { env } from 'process';
 
 export default async function DashboardLayout({
   children
@@ -138,6 +123,10 @@ function DesktopNav({ rol }: { rol: string }) {
             </NavItem>
           </>
         )}
+
+        <NavItem href="/ejercicios" label="Ejercicios">
+          <Blocks className="h-5 w-5" />
+        </NavItem>
 
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -287,6 +276,16 @@ function MobileNav({ rol }: { rol: string }) {
 
             </>
           )}
+
+          <SheetClose asChild>
+            <Link
+              href="/ejercicios"
+              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+            >
+              <Blocks className="h-5 w-5" />
+              Ejercicios
+            </Link>
+          </SheetClose>
 
         </nav>
       </SheetContent>

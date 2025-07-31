@@ -58,7 +58,6 @@ export default function TablaRutinaEjercicios({ rutina_id }: Props) {
   const [selectedExercise, setSelectedExercise] = useState<Ejercicio | null>(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  /* const { id } = useParams() */
   const [ejercicios, setEjercicios] = useState<Ejercicio[]>([])
   const [loading, setLoading] = useState(true)
 
