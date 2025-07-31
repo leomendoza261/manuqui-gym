@@ -1,35 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
+    Card, CardContent, CardDescription, CardHeader, CardTitle
 } from '@/components/ui/card'
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHeader,
-    TableRow
+    Table, TableBody, TableCell, TableHeader, TableRow
 } from '@/components/ui/table'
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
+    Drawer, DrawerClose, DrawerContent, DrawerDescription,
+    DrawerFooter, DrawerHeader, DrawerTitle
 } from "@/components/ui/drawer"
 import Image from 'next/image'
 import { Skeleton } from '../ui/skeleton'
 import { TextoFormateado } from '@/lib/FormatearInstrucciones'
+import { Input } from '../ui/input'
+import { Search, X } from 'lucide-react'
 
 interface Ejercicio {
     id: number;
@@ -50,8 +37,10 @@ export default function TablaEjercicios() {
     const [ejercicios, setEjercicios] = useState<Ejercicio[]>([])
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
+    const [mostrarBuscador, setMostrarBuscador] = useState(false)
+    const [textoBusqueda, setTextoBusqueda] = useState("")
 
+    useEffect(() => {
         const fetchData = async () => {
             const res = await fetch(`/api/ejercicios/todos`)
             const data = await res.json()
@@ -61,6 +50,10 @@ export default function TablaEjercicios() {
 
         fetchData()
     }, [])
+
+    const ejerciciosFiltrados = ejercicios.filter(ej =>
+        ej.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
+    )
 
     if (loading) return (
         <div>
@@ -73,19 +66,52 @@ export default function TablaEjercicios() {
                     <Skeleton className="h-[125px] w-full rounded-xl mt-2" />
                 </CardContent>
             </Card>
-        </div>);
+        </div>
+    )
 
     return (
-        <div>
+        <div className="space-y-2">
+            {/* Botón de búsqueda */}
+
+
+            {/* Input de búsqueda con botón de cerrar */}
+            {mostrarBuscador && (
+                <div className="relative w-full sm:w-64 mb-2">
+                    <Input
+                        value={textoBusqueda}
+                        onChange={(e) => setTextoBusqueda(e.target.value)}
+                        placeholder="Buscar ejercicio por nombre..."
+                        className="pr-10 border-gray-500"
+                    />
+                    {textoBusqueda.length > 0 && (
+                        <button
+                            onClick={() => setTextoBusqueda("")}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                    )}
+                </div>
+            )}
+
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableCell>Imagen</TableCell>
-                        <TableCell>Nombre</TableCell>
+                        <TableCell className='p-2'>Imagen</TableCell>
+                        <TableCell className="flex justify-between items-center p-2">
+                            <span className='pl-2'>
+                                Nombre
+                            </span>
+                            <div >
+                                <Button variant="outline" size="icon" onClick={() => setMostrarBuscador(!mostrarBuscador)}>
+                                    <Search className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </TableCell>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {ejercicios.map((ejercicio) => (
+                    {ejerciciosFiltrados.map((ejercicio) => (
                         <TableRow
                             key={ejercicio.id}
                             className="cursor-pointer"
@@ -100,13 +126,11 @@ export default function TablaEjercicios() {
                                     alt={ejercicio.nombre}
                                     width={100}
                                     height={100}
-                                    className="rounded "
+                                    className="rounded"
                                 />
                             </TableCell>
                             <TableCell>
                                 <p className="font-bold text-base">{ejercicio.nombre}</p>
-                                <p><span className="text-xs text-muted-foreground">
-                                </span></p>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -117,7 +141,6 @@ export default function TablaEjercicios() {
                 <Drawer open={isOpen} onOpenChange={setIsOpen}>
                     <DrawerContent>
                         <div className="mx-auto w-full max-w-sm max-h-[80vh] overflow-y-auto px-4">
-
                             <DrawerHeader>
                                 <DrawerTitle>{selectedExercise.nombre}</DrawerTitle>
                                 <DrawerDescription>
@@ -134,7 +157,7 @@ export default function TablaEjercicios() {
                                 />
                                 <p className='text-lg font-semibold my-1'>Preparación</p>
                                 <p>{selectedExercise.descripcion}</p>
-                                <p className='text-lg font-semibold my-1'>Ejecucion</p>
+                                <p className='text-lg font-semibold my-1'>Ejecución</p>
                                 <TextoFormateado texto={selectedExercise.ejecucion} />
                                 <p className='text-lg font-semibold my-1'>Consejos Clave</p>
                                 <TextoFormateado texto={selectedExercise.consejos} />
