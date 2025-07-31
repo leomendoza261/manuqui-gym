@@ -6,9 +6,18 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 
-export default function AgregarMiembroPage() {
+export default async function AgregarMiembroPage() {
+
+  const session = await auth();
+
+  if (!session || session.user?.email !== "pedrolmendoza031297@gmail.com") {
+    redirect('/');
+  }
+
   return (
     <div>
       <Card>
@@ -17,7 +26,7 @@ export default function AgregarMiembroPage() {
           <CardDescription>Registrar un nuevo miembro.</CardDescription>
         </CardHeader>
         <CardContent>
-            <FormularioMiembro />
+          <FormularioMiembro />
         </CardContent>
       </Card>
     </div>

@@ -1,7 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
-
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+import { withAuth } from '@/lib/protected-handler';
+ 
+export const GET = withAuth(async (_req: NextRequest, { params }: { params: { id: string } }) => {
   const id = params.id;
 
   if (!id) {
@@ -42,4 +43,4 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     tipo_sangre: usuario.tipos_sangre?.tipo ?? null,
     membresia: membresia ?? null,
   });
-}
+})

@@ -22,7 +22,7 @@ import { User } from './user';
 import Providers from './providers';
 import { NavItem } from './nav-item';
 
-import { auth } from '@/lib/auth';
+import { auth, signOut } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
@@ -127,6 +127,7 @@ function DesktopNav({ rol }: { rol: string }) {
         <NavItem href="/ejercicios" label="Ejercicios">
           <Blocks className="h-5 w-5" />
         </NavItem>
+        
 
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">

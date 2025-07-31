@@ -1,8 +1,12 @@
-import { supabase } from '@/lib/supabase'; 
+import { supabase } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth } from '@/lib/protected-handler';
+import { usuarioEsEntrenadorOAdmin } from '@/lib/permissions';
 
-export async function PUT(req: NextRequest) {
+
+export const PUT = withAuth(async (req: NextRequest, session) => {
   try {
+    
     const body = await req.json();
 
     const {
@@ -16,6 +20,13 @@ export async function PUT(req: NextRequest) {
       telefono,
       rol
     } = body;
+
+    const email_user = session.user.email;
+
+    const tienePermiso = await usuarioEsEntrenadorOAdmin(email_user);
+    if (!tienePermiso) {
+      return NextResponse.json({ error: 'Acceso no autorizado' }, { status: 403 });
+    }
 
     // Validación mínima
     if (!id || !email || !rol) {
@@ -45,4 +56,4 @@ export async function PUT(req: NextRequest) {
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
-}
+})

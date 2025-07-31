@@ -1,11 +1,12 @@
 // app/api/membresias/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-
-export async function GET(
+import { withAuth } from '@/lib/protected-handler';
+ 
+export const GET = withAuth(async (
   _req: NextRequest,
   context: { params: { id: string } } // 👈 Esto es correcto para App Router
-) {
+) => {
   const id = context.params.id;
 
   if (!id) {
@@ -23,4 +24,4 @@ export async function GET(
   }
 
   return NextResponse.json(data);
-}
+})

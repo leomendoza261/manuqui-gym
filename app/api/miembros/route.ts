@@ -1,11 +1,24 @@
-import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 import { withAuth } from '@/lib/protected-handler';
 import { NextRequest } from 'next/server';
+import { usuarioEsEntrenadorOAdmin } from '@/lib/permissions';
 
 export const GET = withAuth(async (_req: NextRequest, session) => {
-  const { data, error } = await supabase.from('vista_usuarios_membresias').select('*')
+  const email = session.user.email;
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-  return NextResponse.json(data)
-})
+  const tienePermiso = await usuarioEsEntrenadorOAdmin(email);
+  if (!tienePermiso) {
+    return NextResponse.json({ error: 'Acceso no autorizado' }, { status: 403 });
+  }
+
+  const { data, error } = await supabase
+    .from('vista_usuarios_membresias')
+    .select('*');
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data);
+});

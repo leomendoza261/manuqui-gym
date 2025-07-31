@@ -1,5 +1,7 @@
 'use client';
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CircleX } from 'lucide-react';
 import { useEffect } from 'react';
 
 export default function Error({
@@ -16,31 +18,16 @@ export default function Error({
 
   return (
     <main className="p-4 md:p-6">
-      <div className="mb-8 space-y-4">
-        <h1 className="font-semibold text-lg md:text-2xl">
-          Please complete setup
-        </h1>
-        <p>
-          Inside the Vercel Postgres dashboard, create a table based on the
-          schema defined in this repository.
-        </p>
-        <pre className="my-4 px-3 py-4 bg-black text-white rounded-lg max-w-2xl overflow-scroll flex text-wrap">
-          <code>
-            {`CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  email VARCHAR(255) NOT NULL,
-  name VARCHAR(255),
-  username VARCHAR(255)
-);`}
-          </code>
-        </pre>
-        <p>Insert a row for testing:</p>
-        <pre className="my-4 px-3 py-4 bg-black text-white rounded-lg max-w-2xl overflow-scroll flex text-wrap">
-          <code>
-            {`INSERT INTO users (id, email, name, username) VALUES (1, 'me@site.com', 'Me', 'username');`}
-          </code>
-        </pre>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>ERROR</CardTitle>
+          <CardDescription>Ha ocurrido un error.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <CircleX className='h-20 w-20 text-red-600'/>
+            <span className='text-red-600'>Error 500: error interno del servidor.</span>
+        </CardContent>
+      </Card>
     </main>
   );
 }

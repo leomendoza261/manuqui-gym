@@ -16,7 +16,7 @@ export default async function MiembrosPage() {
 
   const session = await auth();
 
-  if (!session || session.user?.email !== "pedrolmendoza031297@gmail.com.ar") {
+  if (!session || session.user?.email !== "pedrolmendoza031297@gmail.com") {
     redirect('/');
   }
 

@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { withAuth } from '@/lib/protected-handler';
 import { NextRequest } from 'next/server';
+import { usuarioEsEntrenadorOAdmin } from '@/lib/permissions';
 
 export const POST = withAuth(async (_req: NextRequest, session) => {
     try {
         const body = await _req.json()
-        const { 
+        const {
             nombre,
             apellido,
             dni,
@@ -20,6 +21,13 @@ export const POST = withAuth(async (_req: NextRequest, session) => {
             fecha_inicio,
             fecha_fin,
         } = body;
+
+        const email_user = session.user.email;
+
+        const tienePermiso = await usuarioEsEntrenadorOAdmin(email_user);
+        if (!tienePermiso) {
+            return NextResponse.json({ error: 'Acceso no autorizado' }, { status: 403 });
+        }
 
         // 1. Insertar el nuevo usuario y obtener su ID
         const { data: usuarioInsertado, error: insertError } = await supabase
