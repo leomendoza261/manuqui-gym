@@ -97,11 +97,11 @@ export default function TablaMembresias() {
           <tr>
             <th className="px-4 py-2 border">Nombre</th>
             <th className="px-4 py-2 border">Apellido</th>
-            <th className="px-4 py-2 border">DNI</th>
-            <th className="px-4 py-2 border">Fecha Inicio</th>
+            <th className="px-4 py-2 border hidden md:table-cell">DNI</th>
+            <th className="px-4 py-2 border hidden md:table-cell">Fecha Inicio</th>
             <th className="px-4 py-2 border">Fecha Vencimiento</th>
-            <th className="px-4 py-2 border">Estado</th>
-            <th className="px-4 py-2 border">Acciones</th>
+            <th className="px-4 py-2 border hidden md:table-cell">Estado</th>
+            <th className="px-4 py-2 border hidden md:table-cell">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -109,13 +109,13 @@ export default function TablaMembresias() {
             <tr key={usuario.id_usuario} className="hover:bg-gray-50">
               <td className="px-4 py-2 border">{usuario.nombre}</td>
               <td className="px-4 py-2 border">{usuario.apellido}</td>
-              <td className="px-4 py-2 border">{usuario.dni}</td>
-              <td className="px-4 py-2 border text-center">{usuario.fecha_inicio}</td>
+              <td className="px-4 py-2 border hidden md:table-cell">{usuario.dni}</td>
+              <td className="px-4 py-2 border hidden md:table-cell text-center">{usuario.fecha_inicio}</td>
               <td className="px-4 py-2 border text-center">{usuario.fecha_fin}</td>
-              <td className={`px-4 py-2 border text-center ${usuario.estado === 'activa' ? 'text-green-600' : 'text-red-600'}`}>
+              <td className={`px-4 py-2 border hidden md:table-cell text-center ${usuario.estado === 'activa' ? 'text-green-600' : 'text-red-600'}`}>
                 {usuario.estado}
               </td>
-              <td className="px-4 py-2 border space-x-4 text-center">
+              <td className="px-4 py-2 border space-x-4 text-center hidden md:table-cell">
                 <button className="text-blue-500 " onClick={() => abrirModalMembresia(usuario.id)}><RefreshCcw className="h-3.5 w-3.5" /></button>
                 <button className="text-blue-500 " onClick={() => abrirModalInformacion(usuario.id_usuario)}><InfoIcon className="h-3.5 w-3.5" /></button>
                 <button className="text-blue-500 " onClick={() => abrirModalEditar(usuario.id_usuario)}><Pencil className="h-3.5 w-3.5" /></button>

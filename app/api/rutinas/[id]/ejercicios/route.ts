@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase'; // ajusta esto a tu cliente Supabase real
 import { withAuth } from '@/lib/protected-handler';
 
-export const GET = withAuth(async (req: NextRequest, { params }: { params: { id: string } }) => {
-  const { id } = params;
- 
+export const GET = withAuth(async (_req: NextRequest, _session: any, context?: { params?: { id?: string } }) => {
+
+  const id = context?.params?.id;
+
+  if (!id) {
+    return NextResponse.json({ error: 'ID de rutina inválido' }, { status: 400 });
+  }
+
   const { data, error } = await supabase
     .from('rutina_ejercicios')
     .select(`

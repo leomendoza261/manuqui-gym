@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { supabase } from '@/lib/supabase'; // acceso directo
+import TablaRutinas from '@/components/rutinas/TablaRutinas';
 
 export default async function RutinasPage() {
   const session = await auth();
@@ -63,20 +64,7 @@ export default async function RutinasPage() {
           <CardDescription>Vista de rutinas y sus ejercicios</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableCaption></TableCaption>
-            <TableHeader>
-              <TableRow />
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">Rutina de pecho</TableCell>
-                <TableCell className="text-right">creado por: Emanuel</TableCell>
-                <TableCell className="text-right">82 miembro</TableCell>
-              </TableRow>
-              {/* ... más filas estáticas */}
-            </TableBody>
-          </Table>
+          <TablaRutinas />
         </CardContent>
       </Card>
     </div>

@@ -3,11 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { withAuth } from '@/lib/protected-handler';
  
-export const GET = withAuth(async (
-  _req: NextRequest,
-  context: { params: { id: string } } // 👈 Esto es correcto para App Router
-) => {
-  const id = context.params.id;
+export const GET = withAuth(async (_req: NextRequest, _session: any, context?: { params?: { id?: string } }) => {
+
+  const id = context?.params?.id;
 
   if (!id) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
@@ -25,3 +23,4 @@ export const GET = withAuth(async (
 
   return NextResponse.json(data);
 })
+ 

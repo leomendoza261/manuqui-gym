@@ -1,13 +1,14 @@
 import { supabase } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/protected-handler';
- 
-export const GET = withAuth(async (_req: NextRequest, { params }: { params: { id: string } }) => {
-  const id = params.id;
+
+export const GET = withAuth(async (_req: NextRequest, _session: any, context?: { params?: { id?: string } }) => {
+  const id = context?.params?.id;
 
   if (!id) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
   }
+
   // Buscar usuario por ID
   const { data: usuario, error: errorUsuario } = await supabase
     .from('usuarios')
@@ -43,4 +44,4 @@ export const GET = withAuth(async (_req: NextRequest, { params }: { params: { id
     tipo_sangre: usuario.tipos_sangre?.tipo ?? null,
     membresia: membresia ?? null,
   });
-})
+});

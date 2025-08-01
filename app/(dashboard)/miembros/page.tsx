@@ -27,7 +27,7 @@ export default async function MiembrosPage() {
         <Link href={'/miembros/agregarmiembro'} >
           <Button size="sm" className="h-8 gap-1">
             <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            <span>
               Añadir miembro
             </span>
           </Button>

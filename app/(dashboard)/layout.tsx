@@ -90,9 +90,9 @@ function DesktopNav({ rol }: { rol: string }) {
             <NavItem href="/miembros" label="Miembros">
               <Users2 className="h-5 w-5" />
             </NavItem>
-            <NavItem href="/entrenadores" label="Entrenadores">
+            {/* <NavItem href="/entrenadores" label="Entrenadores">
               <UserIcon className="h-5 w-5" />
-            </NavItem>
+            </NavItem> */}
             <NavItem href="/rutinas" label="Rutinas">
               <ClipboardPen className="h-5 w-5" />
             </NavItem>
@@ -182,7 +182,7 @@ function MobileNav({ rol }: { rol: string }) {
                   Miembros
                 </Link>
               </SheetClose>
-              <SheetClose asChild>
+              {/* <SheetClose asChild>
                 <Link
                   href="#"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -190,7 +190,7 @@ function MobileNav({ rol }: { rol: string }) {
                   <UserIcon className="h-5 w-5" />
                   Entrenadores
                 </Link>
-              </SheetClose>
+              </SheetClose> */}
               <SheetClose asChild>
                 <Link
                   href="/rutinas"
