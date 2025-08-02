@@ -1,6 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { File, PlusCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import TablaEntrenadoresDashboard from '@/components/dashboard/entrenador';
+import TablaAnunciosDashboard from '@/components/dashboard/anuncios';
+
 
 
 export default async function ProductsPage(
@@ -14,33 +16,32 @@ export default async function ProductsPage(
 
 
   return (
-    <Tabs defaultValue="all">
+    <Tabs defaultValue="Anuncios">
       <div className="flex items-center">
         <TabsList>
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="draft">Draft</TabsTrigger>
-          <TabsTrigger value="archived" className="hidden sm:flex">
-            Archived
-          </TabsTrigger>
+          <TabsTrigger value="Anuncios">Anuncios</TabsTrigger>
+          <TabsTrigger value="Entrenadores">Entrenadores</TabsTrigger>
         </TabsList>
-        <div className="ml-auto flex items-center gap-2">
-          <Button size="sm" variant="outline" className="h-8 gap-1">
-            <File className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Export
-            </span>
-          </Button>
-          <Button size="sm" className="h-8 gap-1">
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Product
-            </span>
-          </Button>
-        </div>
       </div>
-      <TabsContent value="all">
-
+      <TabsContent value="Anuncios">
+        <Card>
+          <CardHeader>
+            <CardTitle>Anuncios</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TablaAnunciosDashboard />
+          </CardContent>
+        </Card>
+      </TabsContent>
+      <TabsContent value="Entrenadores">
+        <Card>
+          <CardHeader>
+            <CardTitle>Entrenadores</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TablaEntrenadoresDashboard />
+          </CardContent>
+        </Card>
       </TabsContent>
     </Tabs>
   );
