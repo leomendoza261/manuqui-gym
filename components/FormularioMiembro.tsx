@@ -44,6 +44,7 @@ export default function FormularioMiembro() {
     tipo_membresia: '',
     fecha_inicio: '',
     fecha_fin: '',
+    pase_membresia: ''
 
   });
   const [open, setOpen] = React.useState(false)
@@ -78,7 +79,8 @@ export default function FormularioMiembro() {
         "rol",
         "tipo_membresia",
         "fecha_inicio",
-        "fecha_fin"
+        "fecha_fin",
+        "pase_membresia"
       ];
 
       for (const campo of camposObligatorios) {
@@ -110,6 +112,7 @@ export default function FormularioMiembro() {
       body: JSON.stringify({
         ...formulario,
         tipo_sangre_id: parseInt(formulario.tipo_sangre_id),
+        pase_membresia: parseInt(formulario.pase_membresia)
       }),
       headers: { 'Content-Type': 'application/json' },
     });
@@ -213,6 +216,20 @@ export default function FormularioMiembro() {
               <SelectItem value="trimestral">Trimestral</SelectItem>
               <SelectItem value="semestral">Semestral</SelectItem>
               <SelectItem value="anual">Anual</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Label htmlFor="Membresia">Pase</Label>
+        <Select name="pase_membresia" value={formulario.pase_membresia} onValueChange={(value) => setFormulario({ ...formulario, pase_membresia: value })} required>
+          <SelectTrigger >
+            <SelectValue placeholder="Selecciona una membresia" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Pase de membresia</SelectLabel>
+              <SelectItem value="1">3 dias</SelectItem>
+              <SelectItem value="2">7 dias</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

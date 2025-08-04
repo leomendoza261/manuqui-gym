@@ -17,7 +17,7 @@ type Miembro = {
     dni: string
     email: string
     telefono: string
-    fecha_nacimiento: string | null
+    fecha_nacimiento: string 
     tipo_sangre_id: number | null
     rol: string
 }
@@ -38,7 +38,7 @@ export default function FormularioEditarMiembro({ id_usuario, OnSuccess: onSucce
         dni: '',
         email: '',
         telefono: '',
-        fecha_nacimiento: null,
+        fecha_nacimiento: '',
         tipo_sangre_id: null,
         rol: '',
     })
@@ -121,7 +121,10 @@ export default function FormularioEditarMiembro({ id_usuario, OnSuccess: onSucce
 
                 <div className="flex flex-col gap-3">
                     <Label>Fecha de nacimiento</Label>
-                    <Popover open={openFecha} onOpenChange={setOpenFecha}>
+
+                    <Input type='date' value={form.fecha_nacimiento} onChange={(e) => handleChange('fecha_nacimiento', e.target.value)}/>
+
+                    {/* <Popover open={openFecha} onOpenChange={setOpenFecha}>
                         <PopoverTrigger asChild>
                             <Button variant="outline">
                                 {form.fecha_nacimiento
@@ -141,7 +144,7 @@ export default function FormularioEditarMiembro({ id_usuario, OnSuccess: onSucce
                                 }}
                             />
                         </PopoverContent>
-                    </Popover>
+                    </Popover> */}
                 </div>
 
                 <Label>Tipo de sangre</Label>

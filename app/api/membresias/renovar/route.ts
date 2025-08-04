@@ -10,9 +10,9 @@ export const POST = withAuth(async (req: NextRequest, session) => {
         const body = await req.json();
         console.log('Datos recibidos en el API:', body);
 
-        const { id_membresia, nuevo_inicio, nuevo_fin, tipo } = body;
+        const { id_membresia, nuevo_inicio, nuevo_fin, tipo, pase_membresia } = body;
 
-        if (!id_membresia || !nuevo_inicio || !nuevo_fin || !tipo) {
+        if (!id_membresia || !nuevo_inicio || !nuevo_fin || !tipo || !pase_membresia) {
             return NextResponse.json({ error: 'Faltan datos obligatorios.' }, { status: 400 });
         }
 
@@ -27,6 +27,7 @@ export const POST = withAuth(async (req: NextRequest, session) => {
                 fecha_fin: nuevo_fin,
                 tipo,
                 estado: 'activa',
+                pase_membresia
             })
             .eq('id', id_membresia);
 

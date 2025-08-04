@@ -23,6 +23,8 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
     const [tipo, setTipo] = useState<'mensual' | 'trimestral' | 'semestral' | 'anual' | ''>('')
     const [fechaInicioNueva, setFechaInicioNueva] = useState<Date | null>(null)
     const [fechaFinNueva, setFechaFinNueva] = useState<Date | null>(null)
+    const [paseMembresia, setPaseMembresia] = useState<number | null>(null)
+
 
     const [openInicio, setOpenInicio] = useState(false)
     const [openFin, setOpenFin] = useState(false)
@@ -34,6 +36,7 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
             setMembresiaActual(data)
             const fechaFinAnterior = new Date(data.fecha_fin)
             setFechaInicioNueva(fechaFinAnterior)
+            setPaseMembresia(data.pase_membresia ?? null) 
         }
 
         fetchMembresia()
@@ -84,6 +87,7 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
                 nuevo_inicio: fechaInicioNueva.toISOString(), // asegúrate de usar el mismo nombre que espera el API
                 nuevo_fin: fechaFinNueva.toISOString(),
                 tipo,
+                pase_membresia: paseMembresia,
             }),
         })
 
@@ -118,11 +122,25 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>Tipos membresías</SelectLabel>
+                            <SelectLabel>Tipos de membresías</SelectLabel>
                             <SelectItem value="mensual">Mensual</SelectItem>
                             <SelectItem value="trimestral">Trimestral</SelectItem>
                             <SelectItem value="semestral">Semestral</SelectItem>
                             <SelectItem value="anual">Anual</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+
+                <Label>Pase de membresia</Label>
+                <Select value={paseMembresia?.toString() ?? ''} onValueChange={(val) => setPaseMembresia(Number(val))}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Seleccionar tipo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Tipos de pases</SelectLabel>
+                            <SelectItem value="1">3 dias</SelectItem>
+                            <SelectItem value="2">7 dias</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>

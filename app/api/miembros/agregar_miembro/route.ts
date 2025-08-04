@@ -20,6 +20,7 @@ export const POST = withAuth(async (_req: NextRequest, session) => {
             tipo_membresia,
             fecha_inicio,
             fecha_fin,
+            pase_membresia,
         } = body;
 
         const email_user = session.user.email;
@@ -58,7 +59,8 @@ export const POST = withAuth(async (_req: NextRequest, session) => {
                 tipo: tipo_membresia,
                 fecha_inicio,
                 fecha_fin,
-                estado: 'activa'
+                estado: 'activa',
+                pase_membresia
             }])
 
         if (membresiaError) throw membresiaError
