@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ChevronDownIcon } from 'lucide-react';
-import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 
 
@@ -69,7 +68,7 @@ export default function CompletarPerfil() {
         }
 
         if (usuarioExistente) {
-            toast('Ya completaste tu perfil.');
+            alert('Ya completaste tu perfil.');
             router.push('/');
             return;
         }
@@ -109,7 +108,7 @@ export default function CompletarPerfil() {
             return;
         }
 
-        toast('Perfil completado con éxito.');
+        alert('Perfil completado con éxito.');
         router.push('/');
     };
 

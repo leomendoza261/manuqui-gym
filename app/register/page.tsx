@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { toast } from 'sonner';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from "@/components/ui/calendar";
@@ -103,7 +102,7 @@ export default function RegisterPage() {
       return;
     }
 
-    toast('Registro exitoso. Ahora podés iniciar sesión.');
+    alert('Registro exitoso. Ahora podés iniciar sesión.');
     router.push('/login');
   };
 
