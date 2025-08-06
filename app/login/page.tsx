@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -44,19 +45,27 @@ export default function LoginPage() {
           <div className="grid gap-4">
             <div>
               <Label>Correo</Label>
-              <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input value={email} onChange={(e) => setEmail(e.target.value)} required/>
             </div>
             <div>
               <Label>Contraseña</Label>
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </div>
-            <Link className='text-blue-700 text-sm hover:text-blue-500' href={'/register'}>Aun no tienes cuenta? Registráte</Link>
+            <Link className='text-blue-700 text-sm hover:text-blue-500' href={''}>Olvidé mi contraseña</Link>
             <Button className="w-full mt-2" onClick={handleLogin}>Iniciar sesión</Button>
-            
+            <Link className='text-blue-700 text-sm hover:text-blue-500' href={'/register'}>Aun no tienes cuenta? Registráte</Link>
           </div>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="flex flex-col gap-4">
+
+          <div className="flex items-center w-full gap-4">
+            <Separator className="flex-1" />
+            <span className="text-sm text-muted-foreground">Ó</span>
+            <Separator className="flex-1" />
+          </div>
+
+
           <Button className="w-full" onClick={() => signIn('google', { callbackUrl: '/' })}>
             <GoogleIcon className="mr-2 mt-1" />
             Iniciar sesión con Google

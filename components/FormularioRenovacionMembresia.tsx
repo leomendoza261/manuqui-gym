@@ -9,9 +9,7 @@ import {
     Select, SelectContent, SelectItem, SelectLabel,
     SelectTrigger, SelectValue, SelectGroup
 } from './ui/select'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { ChevronDownIcon } from 'lucide-react'
+import { Input } from './ui/input'
 
 type Props = {
     id_membresia: number | null;
@@ -25,10 +23,6 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
     const [fechaFinNueva, setFechaFinNueva] = useState<Date | null>(null)
     const [paseMembresia, setPaseMembresia] = useState<number | null>(null)
 
-
-    const [openInicio, setOpenInicio] = useState(false)
-    const [openFin, setOpenFin] = useState(false)
-
     useEffect(() => {
         const fetchMembresia = async () => {
             const res = await fetch(`/api/membresias/${id_membresia}`)
@@ -36,7 +30,7 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
             setMembresiaActual(data)
             const fechaFinAnterior = new Date(data.fecha_fin)
             setFechaInicioNueva(fechaFinAnterior)
-            setPaseMembresia(data.pase_membresia ?? null) 
+            setPaseMembresia(data.pase_membresia ?? null)
         }
 
         fetchMembresia()
@@ -148,56 +142,32 @@ export default function FormularioRenovarMembresia({ id_membresia, onSuccess }: 
 
             <div className="flex flex-col gap-2">
                 <Label>Nueva fecha de inicio</Label>
-                <Popover open={openInicio} onOpenChange={setOpenInicio}>
-                    <PopoverTrigger asChild>
-                        <Button variant="outline" className="justify-between font-normal">
-                            {fechaInicioNueva ? format(fechaInicioNueva, 'dd/MM/yyyy') : 'Seleccionar'}
-                            <ChevronDownIcon className="ml-2 h-4 w-4" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                        <Calendar
-                            mode="single"
-                            selected={fechaInicioNueva ?? undefined}
-                            captionLayout="dropdown"
-                            onSelect={(fecha) => {
-                                if (!fecha) return
-                                setFechaInicioNueva(fecha)
-                                if (tipo) {
-                                    const nuevaFin = calcularNuevaFechaFin(tipo, fecha)
-                                    setFechaFinNueva(nuevaFin)
-                                }
-                                setOpenInicio(false)
-                            }}
-                        />
+                <Input
+                    type="date"
+                    value={fechaInicioNueva ? format(fechaInicioNueva, 'yyyy-MM-dd') : ''}
+                    onChange={(e) => {
+                        const nuevaFecha = new Date(e.target.value)
+                        setFechaInicioNueva(nuevaFecha)
 
-                    </PopoverContent>
-                </Popover>
+                        if (tipo) {
+                            const nuevaFin = calcularNuevaFechaFin(tipo, nuevaFecha)
+                            setFechaFinNueva(nuevaFin)
+                        }
+                    }}
+                />
             </div>
 
             {fechaFinNueva && (
                 <div className="flex flex-col gap-2">
                     <Label>Nueva fecha de fin</Label>
-                    <Popover open={openFin} onOpenChange={setOpenFin}>
-                        <PopoverTrigger asChild>
-                            <Button variant="outline" className="justify-between font-normal">
-                                {fechaFinNueva ? format(fechaFinNueva, 'dd/MM/yyyy') : 'Seleccionar'}
-                                <ChevronDownIcon className="ml-2 h-4 w-4" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 ">
-                            <Calendar
-                                mode="single"
-                                selected={fechaFinNueva ?? undefined}
-                                captionLayout="dropdown"
-                                onSelect={(fecha) => {
-                                    if (!fecha) return
-                                    setFechaFinNueva(fecha)
-                                    setOpenFin(false)
-                                }}
-                            />
-                        </PopoverContent>
-                    </Popover>
+                    <Input
+                        type="date"
+                        value={fechaFinNueva ? format(fechaFinNueva, 'yyyy-MM-dd') : ''}
+                        onChange={(e) => {
+                            const nuevaFecha = new Date(e.target.value)
+                            setFechaFinNueva(nuevaFecha)
+                        }}
+                    />
                 </div>
             )}
 
