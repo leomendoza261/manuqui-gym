@@ -1,12 +1,8 @@
+'use client';
 import './globals.css';
-
 import { Analytics } from '@vercel/analytics/react';
-
-export const metadata = {
-  title: 'Next.js App Router + NextAuth + Tailwind CSS',
-  description:
-    'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.'
-};
+import { SessionProvider } from 'next-auth/react';
+import Head from 'next/head';
 
 export default function RootLayout({
   children
@@ -15,7 +11,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen w-full flex-col">{children}</body>
+      <Head>
+        <title>Manuqui-Gym App</title>
+        <meta name="Manuqui-Gym" content="Aplicación de Manuqui-Gym." />
+      </Head>
+      <body className="flex min-h-screen w-full flex-col">
+        <SessionProvider>
+          {children}
+        </SessionProvider>
+      </body>
       <Analytics />
     </html>
   );

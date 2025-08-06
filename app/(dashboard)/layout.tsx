@@ -22,35 +22,32 @@ import { User } from './user';
 import Providers from './providers';
 import { NavItem } from './nav-item';
 
-import { auth, signOut } from '@/lib/auth';
+import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { headers } from 'next/headers';
 
-export default async function DashboardLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
-
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
+  const headersList = await headers();
+  const pathname = headersList.get('x-next-pathname') || '';
 
   if (!session?.user?.email) {
     redirect('/api/auth/signin');
   }
 
-  // Buscar el usuario en Supabase
   const { data: usuario, error } = await supabase
     .from('usuarios')
     .select('rol')
     .eq('email', session.user.email)
     .maybeSingle();
 
-  if (error || !usuario) {
-    console.error('Error al cargar el rol del usuario:', error);
-    redirect('/unauthorized');
+  if (!usuario && !pathname.includes('/completar_perfil')) {
+    console.log('Usuario sin perfil, redirigiendo...');
+    redirect('/completar_perfil');
   }
 
-  const rol = usuario.rol;
+  const rol = usuario?.rol || "miembro";
 
   return (
     <Providers>
@@ -59,7 +56,7 @@ export default async function DashboardLayout({
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
           <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <MobileNav rol={rol} />
-            <h1>Manuqui GYM</h1>
+            <h1 className='font-bold text-xl'>Manuqui Gym</h1>
             {/* <SearchInput />
             <User /> */}
           </header>
@@ -127,10 +124,10 @@ function DesktopNav({ rol }: { rol: string }) {
         <NavItem href="/ejercicios" label="Ejercicios">
           <Blocks className="h-5 w-5" />
         </NavItem>
-        
+
 
       </nav>
-      <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+      {/* <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
@@ -143,7 +140,7 @@ function DesktopNav({ rol }: { rol: string }) {
           </TooltipTrigger>
           <TooltipContent side="right">Settings</TooltipContent>
         </Tooltip>
-      </nav>
+      </nav> */}
     </aside>
   );
 }

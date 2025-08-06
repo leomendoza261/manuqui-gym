@@ -5,16 +5,8 @@ import TablaAnunciosDashboard from '@/components/dashboard/anuncios';
 
 
 
-export default async function ProductsPage(
-  props: {
-    searchParams: Promise<{ q: string; offset: string }>;
-  }
-) {
-  const searchParams = await props.searchParams;
-  const search = searchParams.q ?? '';
-  const offset = searchParams.offset ?? 0;
-
-
+export default async function ProductsPage() {
+  
   return (
     <Tabs defaultValue="Anuncios">
       <div className="flex items-center">

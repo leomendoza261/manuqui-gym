@@ -115,6 +115,15 @@ export default function PerfilUsuario({ id_usuario }: Props) {
                 </TableBody>
             </Table> */}
 
+            {/* {usuario.nombre && <p><strong>Nombre:</strong> Ludmila Camila</p>}
+            {usuario.apellido && <p><strong>Apellido:</strong> Ferreyra</p>}
+            <p><strong>DNI:</strong> 43.215.6768</p>
+            <p><strong>Fecha de nacimiento:</strong> 15/08/1989</p>
+            <p><strong>Tipo de sangre:</strong> O+</p>
+            <p><strong>Email:</strong> camila.ferreyra98@gmail.com</p>
+            <p><strong>Telefono:</strong> +54 9 351 654-7890</p>
+            <p><strong>Rol:</strong> miembro</p> */}
+
             {usuario.nombre && <p><strong>Nombre:</strong> {usuario.nombre}</p>}
             {usuario.apellido && <p><strong>Apellido:</strong> {usuario.apellido}</p>}
             <p><strong>DNI:</strong> {usuario.dni}</p>
@@ -125,7 +134,7 @@ export default function PerfilUsuario({ id_usuario }: Props) {
             <p><strong>Rol:</strong> {usuario.rol}</p>
             <br />
             <p className='text-center'><strong>Estado de membresía</strong> </p>
-            <p className='text-center'><span className='text-xl text-center font-bold text-green-500'>{usuario.membresia.estado}</span></p>
+            <p className='text-center'><span className={`text-xl text-center font-bold ${usuario.membresia.estado === 'activa' ? 'text-green-600' : 'text-red-600'}`}>{usuario.membresia.estado}</span></p> 
             <p className='text-center'><strong>Fecha de inicio</strong></p>
             <p className='text-center'><span className='text-xl text-center font-bold'>{usuario.membresia.fecha_inicio}</span></p>
             <p className='text-center'><strong>Fecha de vencimiento</strong> </p>

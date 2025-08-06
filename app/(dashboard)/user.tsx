@@ -33,10 +33,10 @@ export async function User() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Soporte</DropdownMenuItem>
+        {/* <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuItem>Soporte</DropdownMenuItem> */}
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem>

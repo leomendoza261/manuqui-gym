@@ -31,8 +31,8 @@ export default function TablaRutinas() {
   if (loading) return <div>
     <Card>
       <CardHeader>
-        <CardTitle><Skeleton className="h-6 w-full rounded-full" /></CardTitle>
-        <CardDescription><Skeleton className="h-5 w-full rounded-full" /></CardDescription>
+        <Skeleton className="h-6 w-full rounded-full" />
+        <Skeleton className="h-5 w-full rounded-full" />
       </CardHeader>
       <CardContent>
         <Skeleton className="h-[125px] w-full rounded-xl" />
