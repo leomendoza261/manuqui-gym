@@ -17,9 +17,7 @@ export default function ModalEditar({ open, onClose, id_usuario, onSuccess }: Pr
                 <DialogHeader>
                     <DialogTitle >Editar miembro</DialogTitle>
                 </DialogHeader>
-                <FormularioEditarMiembro id_usuario={id_usuario} OnSuccess={function (): void {
-                    throw new Error('Function not implemented.');
-                } } />
+                <FormularioEditarMiembro id_usuario={id_usuario} onSuccess={onSuccess}/>
             </DialogContent>
         </Dialog>
     );
