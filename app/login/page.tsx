@@ -13,11 +13,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
+  const [showResult, setShowResult] = useState(false)
+  const [mensaje, setMensaje] = useState("")
 
   const handleLogin = async () => {
     const res = await signIn('credentials', {
@@ -29,49 +33,65 @@ export default function LoginPage() {
     if (res?.ok) {
       router.push('/');
     } else {
-      alert('Error al iniciar sesión');
+      setMensaje('Error al iniciar sesión');
+      setShowResult(true)
     }
   };
 
   return (
-    <div className="min-h-screen flex bg-muted justify-center items-center p-8">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
-          <CardDescription>Usá tu correo para iniciar sesión.</CardDescription>
-        </CardHeader>
+    <>
+      <div className="min-h-screen flex bg-muted justify-center items-center p-8">
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
+            <CardDescription>Usá tu correo para iniciar sesión.</CardDescription>
+          </CardHeader>
 
-        <CardContent>
-          <div className="grid gap-4">
-            <div>
-              <Label>Correo</Label>
-              <Input value={email} onChange={(e) => setEmail(e.target.value)} required/>
+          <CardContent>
+            <div className="grid gap-4">
+              <div>
+                <Label>Correo</Label>
+                <Input value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+              <div>
+                <Label>Contraseña</Label>
+                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              </div>
+              <Link className='text-blue-700 text-sm hover:text-blue-500' href={''}>Olvidé mi contraseña</Link>
+              <Button className="w-full mt-2" onClick={handleLogin}>Iniciar sesión</Button>
+              <Link className='text-blue-700 text-sm hover:text-blue-500' href={'/register'}>Aun no tienes cuenta? Registráte</Link>
             </div>
-            <div>
-              <Label>Contraseña</Label>
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+          </CardContent>
+
+          <CardFooter className="flex flex-col gap-4">
+
+            <div className="flex items-center w-full gap-4">
+              <Separator className="flex-1" />
+              <span className="text-sm text-muted-foreground">Ó</span>
+              <Separator className="flex-1" />
             </div>
-            <Link className='text-blue-700 text-sm hover:text-blue-500' href={''}>Olvidé mi contraseña</Link>
-            <Button className="w-full mt-2" onClick={handleLogin}>Iniciar sesión</Button>
-            <Link className='text-blue-700 text-sm hover:text-blue-500' href={'/register'}>Aun no tienes cuenta? Registráte</Link>
-          </div>
-        </CardContent>
-
-        <CardFooter className="flex flex-col gap-4">
-
-          <div className="flex items-center w-full gap-4">
-            <Separator className="flex-1" />
-            <span className="text-sm text-muted-foreground">Ó</span>
-            <Separator className="flex-1" />
-          </div>
 
 
-          <Button className="w-full" onClick={() => signIn('google', { callbackUrl: '/' })}>
-            <GoogleIcon className="mr-2 mt-1" />
-            Iniciar sesión con Google
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+            <Button className="w-full" onClick={() => signIn('google', { callbackUrl: '/' })}>
+              <GoogleIcon className="mr-2 mt-1" />
+              Iniciar sesión con Google
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+
+      {/* Modal de resultado */}
+      <Dialog open={showResult} onOpenChange={setShowResult}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Resultado</DialogTitle>
+          </DialogHeader>
+          <p>{mensaje}</p>
+          <DialogFooter>
+            <Button onClick={() => setShowResult(false)}>Cerrar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

@@ -10,6 +10,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ChevronDownIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 
 export default function CompletarPerfil() {
@@ -26,7 +27,8 @@ export default function CompletarPerfil() {
 
     const [open, setOpen] = useState(false);
     const [date, setDate] = useState<Date | undefined>(undefined);
-    const [errorMsg, setErrorMsg] = useState('');
+    const [mensaje, setMensaje] = useState('');
+    const [showResult, setShowResult] = useState(false)
 
     useEffect(() => {
         if (status === 'loading') return; // aún no sabemos si está la sesión
@@ -38,20 +40,20 @@ export default function CompletarPerfil() {
     };
 
     const handleSubmit = async () => {
-        setErrorMsg('');
+        setMensaje('');
 
         if (!session?.user?.email) {
-            setErrorMsg('Sesión no válida, por favor inicia sesión nuevamente.');
+            setMensaje('Sesión no válida, por favor inicia sesión nuevamente.');
             return;
         }
 
         if (!/^\d+$/.test(formulario.dni)) {
-            setErrorMsg('El DNI debe contener solo números.');
+            setMensaje('El DNI debe contener solo números.');
             return;
         }
 
         if (!formulario.nombre || !formulario.apellido || !formulario.dni) {
-            setErrorMsg('Completa todos los campos obligatorios');
+            setMensaje('Completa todos los campos obligatorios');
             return;
         }
 
@@ -63,13 +65,13 @@ export default function CompletarPerfil() {
             .single();
 
         if (errorBuscar && errorBuscar.code !== 'PGRST116') { // PGRST116 = No encontrado, cambia según el error real
-            setErrorMsg('Error buscando usuario: ' + errorBuscar.message);
+            setMensaje('Error buscando usuario: ' + errorBuscar.message);
             return;
         }
 
         if (usuarioExistente) {
-            alert('Ya completaste tu perfil.');
-            router.push('/');
+            setMensaje('Ya completaste tu perfil.');
+            setShowResult(true)
             return;
         }
 
@@ -89,7 +91,7 @@ export default function CompletarPerfil() {
             .single();
 
         if (errorInsertar || !insertado) {
-            setErrorMsg('Error al guardar tus datos: ' + errorInsertar?.message);
+            setMensaje('Error al guardar tus datos: ' + errorInsertar?.message);
             return;
         }
 
@@ -104,69 +106,85 @@ export default function CompletarPerfil() {
         });
 
         if (errorMembresia) {
-            setErrorMsg('Error al crear membresía: ' + errorMembresia.message);
+            setMensaje('Error al crear membresía: ' + errorMembresia.message);
             return;
         }
 
-        alert('Perfil completado con éxito.');
+        setMensaje('Perfil completado con éxito.');
+        setShowResult(true)
+    };
+
+    const handleCloseDialog = () => {
+        setShowResult(false);
+        setMensaje('');
         router.push('/');
     };
 
 
     return (
-        <div className="min-h-screen flex items-start justify-center p-4 bg-muted">
-            <div className="w-full max-w-md bg-white rounded-xl shadow p-6 space-y-4">
-                <h2 className="text-xl font-semibold">Completá tu perfil</h2>
+        <>
+            <div className="min-h-screen flex items-start justify-center p-4 bg-muted">
+                <div className="w-full max-w-md bg-white rounded-xl shadow p-6 space-y-4">
+                    <h2 className="text-xl font-semibold">Completá tu perfil</h2>
 
-                <Label>Nombre</Label>
-                <Input name="nombre" value={formulario.nombre} onChange={handleChange} />
+                    <Label>Nombre</Label>
+                    <Input name="nombre" value={formulario.nombre} onChange={handleChange} />
 
-                <Label>Apellido</Label>
-                <Input name="apellido" value={formulario.apellido} onChange={handleChange} />
+                    <Label>Apellido</Label>
+                    <Input name="apellido" value={formulario.apellido} onChange={handleChange} />
 
-                <Label>DNI</Label>
-                <Input name="dni" value={formulario.dni} onChange={handleChange} />
+                    <Label>DNI</Label>
+                    <Input name="dni" value={formulario.dni} onChange={handleChange} />
 
-                <div className="flex flex-col gap-2">
-                    <Label htmlFor="fecha_nacimiento">Fecha de nacimiento</Label>
-                    <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild>
-                            <Button variant="outline" className="justify-between font-normal">
-                                {formulario.fecha_nacimiento || 'Selecciona una fecha'}
-                                <ChevronDownIcon className="ml-2 h-4 w-4" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                                mode="single"
-                                selected={date}
-                                captionLayout="dropdown"
-                                onSelect={(selectedDate) => {
-                                    if (selectedDate) {
-                                        setDate(selectedDate);
-                                        const formatted = selectedDate.toISOString().split('T')[0];
-                                        setFormulario({ ...formulario, fecha_nacimiento: formatted });
-                                    }
-                                    setOpen(false);
-                                }}
-                            />
-                        </PopoverContent>
-                    </Popover>
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="fecha_nacimiento">Fecha de nacimiento</Label>
+                        <Popover open={open} onOpenChange={setOpen}>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="justify-between font-normal">
+                                    {formulario.fecha_nacimiento || 'Selecciona una fecha'}
+                                    <ChevronDownIcon className="ml-2 h-4 w-4" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    captionLayout="dropdown"
+                                    onSelect={(selectedDate) => {
+                                        if (selectedDate) {
+                                            setDate(selectedDate);
+                                            const formatted = selectedDate.toISOString().split('T')[0];
+                                            setFormulario({ ...formulario, fecha_nacimiento: formatted });
+                                        }
+                                        setOpen(false);
+                                    }}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
+                    <Label>Teléfono</Label>
+                    <Input name="telefono" value={formulario.telefono} onChange={handleChange} />
+
+                    {mensaje && <p className="text-sm text-red-500">{mensaje}</p>}
+
+                    <Button className="w-full" onClick={handleSubmit}>
+                        Guardar perfil
+                    </Button>
                 </div>
-
-                <Label>Teléfono</Label>
-                <Input name="telefono" value={formulario.telefono} onChange={handleChange} />
-
-                {errorMsg && <p className="text-sm text-red-500">{errorMsg}</p>}
-
-                <Button className="w-full" onClick={handleSubmit}>
-                    Guardar perfil
-                </Button>
             </div>
-        </div>
+
+            <Dialog open={showResult} onOpenChange={(open) => !open && handleCloseDialog()}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Resultado</DialogTitle>
+                    </DialogHeader>
+                    <p>{mensaje}</p>
+                    <DialogFooter>
+                        <Button onClick={handleCloseDialog}>Cerrar</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 }
-function getServerSession(authOptions: any) {
-    throw new Error('Function not implemented.');
-}
-
