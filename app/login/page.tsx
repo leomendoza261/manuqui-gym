@@ -42,7 +42,13 @@ export default function LoginPage() {
     <>
       <div className="min-h-screen flex bg-muted justify-center items-center p-8">
         <Card className="w-full max-w-sm">
+
           <CardHeader>
+            <CardTitle className="text-2xl text-center">TEMPORALMENTE FUERA DE SERVICIO</CardTitle>
+            <CardDescription className='text-center'>Contactaté con el proveedor del servicio.</CardDescription>
+          </CardHeader>
+
+          {/* <CardHeader>
             <CardTitle className="text-2xl">Iniciar sesión</CardTitle>
             <CardDescription>Usá tu correo para iniciar sesión.</CardDescription>
           </CardHeader>
@@ -76,7 +82,7 @@ export default function LoginPage() {
               <GoogleIcon className="mr-2 mt-1" />
               Iniciar sesión con Google
             </Button>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
       </div>
 
